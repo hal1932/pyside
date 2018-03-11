@@ -25,6 +25,11 @@ class TestListModel(QAbstractListModel):
         self.__items.append(item)
         self.endInsertRows()
 
+    def clear(self):
+        self.beginRemoveRows(QModelIndex(), 0, len(self.__items))
+        self.__items = []
+        self.endRemoveRows()
+
 
 class MainWindow(MainWindowBase):
 
@@ -41,9 +46,15 @@ class MainWindow(MainWindowBase):
         button.clicked.connect(
             lambda: list_model.append(list_model.rowCount()))
 
+        button1 = QPushButton()
+        button1.setText('clear')
+        button1.clicked.connect(
+            lambda: list_model.clear())
+
         root.setLayout(QVBoxLayout().add_range(
             list_view,
-            button
+            button,
+            button1
         ))
 
 
